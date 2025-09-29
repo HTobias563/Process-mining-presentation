@@ -1,0 +1,1263 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PMMG Process‑Mining‑Herausforderung – Optimierung des Procure‑to‑Pay‑Prozesses (P2P) mit Celonis</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        /* Celonis-inspiriertes Farbschema */
+        :root {
+            --primary-blue: #000000; /* ersetzt: Celonis-Black als Primärfarbe */
+            --dark-blue: #111111;    /* dunkles Schwarz/Grau */
+            --accent-orange: #FFD400; /* Celonis-Gelb als Akzent */
+            --text-dark: #111111;
+            --text-gray: #5f6368;
+            --bg-light: #ffffff;  /* viel Weißraum */
+            --bg-white: #ffffff;
+            --border-light: #eaeaea;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: var(--bg-light);
+            color: var(--text-dark);
+            overflow-x: hidden;
+            line-height: 1.6;
+        }
+
+        /* Navigation */
+        .nav-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--border-light);
+            z-index: 1000;
+            padding: 16px 24px;
+        }
+
+        .nav-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .nav-brand {
+            font-weight: 800;
+            font-size: 18px;
+            color: var(--primary-blue);
+            letter-spacing: -0.5px;
+        }
+
+        .nav-controls {
+            display: flex;
+            gap: 12px;
+            align-items: center;
+        }
+
+        .nav-button {
+            background: var(--primary-blue);
+            color: #fff;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .nav-button:hover {
+            background: var(--dark-blue);
+        }
+
+        .nav-button.secondary {
+            background: transparent;
+            color: var(--text-gray);
+            border: 1px solid var(--border-light);
+        }
+
+        .nav-button.secondary:hover {
+            background: var(--bg-light);
+            color: var(--text-dark);
+        }
+
+        .page-indicator {
+            color: var(--text-gray);
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        /* Slide Container */
+        .slide-container {
+            padding-top: 80px;
+            min-height: 100vh;
+        }
+
+        .slide {
+            min-height: calc(100vh - 80px);
+            display: none;
+            padding: 60px 24px;
+            position: relative;
+            overflow: hidden;
+            perspective: 1000px;
+            transform-style: preserve-3d;
+        }
+
+        .slide.active {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .slide-content {
+            max-width: 1000px;
+            width: 100%;
+            text-align: center;
+            animation: slideIn3D 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+            transform-style: preserve-3d;
+        }
+
+        /* Enhanced 3D Slide Effects */
+        .slide.slide-3d-left .slide-content {
+            animation: slideInFromLeft 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+        }
+
+        .slide.slide-3d-right .slide-content {
+            animation: slideInFromRight 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+        }
+
+
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(30px) rotateX(15deg);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0) rotateX(0deg);
+            }
+        }
+
+        /* 3D Transform Animations */
+        @keyframes slideIn3D {
+            from {
+                opacity: 0;
+                transform: perspective(1000px) rotateX(45deg) translateZ(-200px);
+            }
+            to {
+                opacity: 1;
+                transform: perspective(1000px) rotateX(0deg) translateZ(0px);
+            }
+        }
+
+        @keyframes textAppear {
+            0% {
+                opacity: 0;
+                transform: translateY(50px) scale(0.8);
+                filter: blur(5px);
+            }
+            50% {
+                opacity: 0.7;
+                transform: translateY(25px) scale(0.9);
+                filter: blur(2px);
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+                filter: blur(0px);
+            }
+        }
+
+        @keyframes typewriter {
+            from {
+                width: 0;
+            }
+            to {
+                width: 100%;
+            }
+        }
+
+        @keyframes fadeInUp {
+            0% {
+                opacity: 0;
+                transform: translate3d(0, 40px, 0);
+            }
+            100% {
+                opacity: 1;
+                transform: translate3d(0, 0, 0);
+            }
+        }
+
+        @keyframes slideInFromLeft {
+            0% {
+                opacity: 0;
+                transform: translate3d(-100px, 0, 0) rotateY(-30deg);
+            }
+            100% {
+                opacity: 1;
+                transform: translate3d(0, 0, 0) rotateY(0deg);
+            }
+        }
+
+        @keyframes slideInFromRight {
+            0% {
+                opacity: 0;
+                transform: translate3d(100px, 0, 0) rotateY(30deg);
+            }
+            100% {
+                opacity: 1;
+                transform: translate3d(0, 0, 0) rotateY(0deg);
+            }
+        }
+
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(0px);
+            }
+            50% {
+                transform: translateY(-10px);
+            }
+        }
+
+        /* Typography with 3D Effects */
+        .slide h1 {
+            font-size: clamp(3rem, 8vw, 6rem);
+            font-weight: 900;
+            line-height: 0.9;
+            margin-bottom: 24px;
+            letter-spacing: -2px;
+            background: linear-gradient(135deg, var(--text-dark), #000000);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            transform-style: preserve-3d;
+            text-shadow: 0 4px 8px rgba(0, 82, 204, 0.3);
+            animation: textAppear 1.2s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+        }
+
+        .slide h2 {
+            font-size: clamp(2rem, 5vw, 4rem);
+            font-weight: 800;
+            line-height: 1.1;
+            margin-bottom: 32px;
+            letter-spacing: -1px;
+            color: var(--text-dark);
+            transform-style: preserve-3d;
+            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.06);
+            animation: textAppear 1s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards 0.2s;
+            opacity: 0;
+        }
+
+        .slide h3 {
+            font-size: clamp(1.5rem, 3vw, 2.5rem);
+            font-weight: 700;
+            margin-bottom: 24px;
+            color: var(--text-dark);
+            transform-style: preserve-3d;
+            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.06);
+            animation: textAppear 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards 0.4s;
+            opacity: 0;
+        }
+
+        /* Animated Text Elements */
+        .animated-text {
+            animation: fadeInUp 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+            opacity: 0;
+        }
+
+        .animated-text.delay-1 { animation-delay: 0.2s; }
+        .animated-text.delay-2 { animation-delay: 0.4s; }
+        .animated-text.delay-3 { animation-delay: 0.6s; }
+        .animated-text.delay-4 { animation-delay: 0.8s; }
+        .animated-text.delay-5 { animation-delay: 1.0s; }
+
+        .subtitle {
+            font-size: clamp(1.2rem, 2.5vw, 1.8rem);
+            font-weight: 400;
+            color: var(--text-gray);
+            margin-bottom: 16px;
+        }
+
+        .author {
+            font-size: 18px;
+            font-weight: 500;
+            color: var(--text-gray);
+            margin-bottom: 40px;
+        }
+
+        /* Special Slides */
+        .title-slide {
+            background: linear-gradient(135deg, #ffffff 0%, #fafafa 100%);
+        }
+
+        .title-slide .company-badge {
+            background: var(--primary-blue);
+            color: #fff;
+            padding: 8px 20px;
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: 600;
+            margin-bottom: 24px;
+            display: inline-block;
+        }
+
+        .celonis-badge {
+            background: var(--accent-orange);
+            color: var(--text-dark);
+            padding: 12px 24px;
+            border-radius: 25px;
+            font-size: 16px;
+            font-weight: 600;
+            margin: 20px 0;
+            display: inline-block;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.12);
+        }
+
+        /* Content Blocks */
+        .content-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 32px;
+            margin: 48px 0;
+            text-align: left;
+        }
+
+        .content-card {
+            background: var(--bg-white);
+            padding: 32px;
+            border-radius: 16px;
+            border: 1px solid var(--border-light);
+            transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            transform-style: preserve-3d;
+            animation: fadeInUp 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+            opacity: 0;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+        }
+
+        .content-card:hover {
+            transform: translateY(-8px) rotateX(5deg) scale(1.02);
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
+        }
+
+        .key-points {
+            list-style: none;
+            padding: 0;
+            text-align: left;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .key-points li {
+            background: var(--bg-white);
+            margin: 16px 0;
+            padding: 24px;
+            border-radius: 12px;
+            border-left: 4px solid var(--accent-orange);
+            font-size: 18px;
+            font-weight: 500;
+            transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            border: 1px solid var(--border-light);
+            transform-style: preserve-3d;
+            animation: slideInFromLeft 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+            opacity: 0;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+        }
+
+        .key-points li:nth-child(1) { animation-delay: 0.1s; }
+        .key-points li:nth-child(2) { animation-delay: 0.2s; }
+        .key-points li:nth-child(3) { animation-delay: 0.3s; }
+        .key-points li:nth-child(4) { animation-delay: 0.4s; }
+        .key-points li:nth-child(5) { animation-delay: 0.5s; }
+
+        .key-points li:hover {
+            transform: translateX(12px) rotateY(5deg) scale(1.02);
+            box-shadow: 0 15px 40px rgba(0, 82, 204, 0.15);
+        }
+
+        /* Process Flow */
+        .process-flow {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 24px;
+            margin: 48px 0;
+            flex-wrap: wrap;
+        }
+
+        .process-step {
+            background: linear-gradient(135deg, var(--primary-blue), var(--dark-blue));
+            color: #fff;
+            padding: 32px;
+            border-radius: 20px;
+            text-align: center;
+            min-width: 160px;
+            font-weight: 600;
+            font-size: 16px;
+            transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            box-shadow: 0 8px 30px rgba(0, 82, 204, 0.2);
+            transform-style: preserve-3d;
+            animation: slideInFromLeft 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+            opacity: 0;
+        }
+
+        .process-step:nth-child(odd) {
+            animation: slideInFromLeft 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+        }
+
+        .process-step:nth-child(even) {
+            animation: slideInFromRight 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+        }
+
+        .process-step:nth-child(1) { animation-delay: 0.1s; }
+        .process-step:nth-child(2) { animation-delay: 0.2s; }
+        .process-step:nth-child(3) { animation-delay: 0.3s; }
+        .process-step:nth-child(4) { animation-delay: 0.4s; }
+        .process-step:nth-child(5) { animation-delay: 0.5s; }
+
+        .process-step:hover {
+            transform: translateY(-10px) rotateX(15deg) scale(1.08);
+            box-shadow: 0 20px 50px rgba(0, 82, 204, 0.3);
+            animation: float 2s ease-in-out infinite;
+        }
+
+        .process-arrow {
+            color: var(--accent-orange);
+            font-size: 24px;
+            font-weight: 600;
+        }
+
+        /* Stats Grid */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 24px;
+            margin: 48px 0;
+        }
+
+        .stat-card {
+            background: linear-gradient(135deg, var(--primary-blue), var(--dark-blue));
+            color: #fff;
+            padding: 40px;
+            border-radius: 20px;
+            text-align: center;
+            transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            box-shadow: 0 10px 40px rgba(0, 82, 204, 0.3);
+            transform-style: preserve-3d;
+            animation: fadeInUp 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+            opacity: 0;
+        }
+
+        .stat-card:nth-child(1) { animation-delay: 0.1s; }
+        .stat-card:nth-child(2) { animation-delay: 0.2s; }
+        .stat-card:nth-child(3) { animation-delay: 0.3s; }
+        .stat-card:nth-child(4) { animation-delay: 0.4s; }
+
+        .stat-card:hover {
+            transform: translateY(-12px) rotateX(10deg) rotateY(5deg) scale(1.05);
+            box-shadow: 0 25px 60px rgba(0, 82, 204, 0.4);
+            animation: float 2s ease-in-out infinite;
+        }
+
+        .stat-value {
+            font-size: clamp(2.5rem, 5vw, 4rem);
+            font-weight: 900;
+            margin-bottom: 12px;
+            line-height: 1;
+        }
+
+        .stat-label {
+            font-size: 16px;
+            font-weight: 500;
+            opacity: 0.9;
+        }
+
+        /* Highlight Boxes */
+        .highlight-box {
+            background: var(--bg-white);
+            border: 2px solid var(--accent-orange);
+            border-radius: 16px;
+            padding: 32px;
+            margin: 32px 0;
+            font-size: 18px;
+            font-weight: 500;
+            transform-style: preserve-3d;
+            transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            animation: fadeInUp 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards 0.2s;
+            opacity: 0;
+            box-shadow: 0 4px 20px rgba(0, 82, 204, 0.1);
+        }
+
+        .highlight-box:hover {
+            transform: translateY(-5px) rotateX(5deg) scale(1.02);
+            box-shadow: 0 15px 40px rgba(0, 82, 204, 0.2);
+        }
+
+        .challenges-box {
+            background: linear-gradient(135deg, #fff5f5, #ffeaea);
+            border-left: 4px solid #e74c3c;
+            padding: 32px;
+            margin: 32px 0;
+            border-radius: 12px;
+        }
+
+        .benefits-box {
+            background: linear-gradient(135deg, #f0f7ff, #e8f4fd);
+            border-left: 4px solid var(--accent-orange);
+            padding: 32px;
+            margin: 32px 0;
+            border-radius: 12px;
+        }
+
+        /* Navigation Dots */
+        .slide-dots {
+            position: fixed;
+            right: 24px;
+            top: 50%;
+            transform: translateY(-50%);
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            z-index: 100;
+        }
+
+        .dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: var(--border-light);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .dot.active {
+            background: var(--primary-blue);
+            transform: scale(1.5);
+        }
+
+        /* Mobile Navigation */
+        .mobile-nav {
+            position: fixed;
+            bottom: 24px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--bg-white);
+            border: 1px solid var(--border-light);
+            border-radius: 50px;
+            padding: 12px;
+            display: none;
+            gap: 8px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+        }
+
+        .mobile-nav-btn {
+            background: var(--primary-blue);
+            color: #fff;
+            border: none;
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 16px;
+            transition: all 0.2s ease;
+        }
+
+        .mobile-nav-btn:hover {
+            background: var(--dark-blue);
+        }
+
+        /* Additional Visual Effects */
+        .slide::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: radial-gradient(circle at 20% 80%, rgba(255, 212, 0, 0.06) 0%, transparent 55%),
+                        radial-gradient(circle at 80% 20%, rgba(0, 0, 0, 0.04) 0%, transparent 50%);
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        /* Glowing effects for interactive elements */
+        .glow-on-hover {
+            position: relative;
+            transition: all 0.3s ease;
+        }
+
+        .glow-on-hover:hover {
+            box-shadow: 0 0 20px rgba(0, 82, 204, 0.4),
+                        0 0 40px rgba(0, 82, 204, 0.2),
+                        0 0 80px rgba(0, 82, 204, 0.1);
+        }
+
+        /* Parallax effect for slides */
+        .slide-parallax {
+            transform-style: preserve-3d;
+        }
+
+        .slide-parallax .slide-content {
+            transform: translateZ(50px);
+        }
+
+        .slide-parallax::before {
+            transform: translateZ(-50px) scale(1.5);
+        }
+
+        /* Particle effect background */
+        .particles {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        .particle {
+            position: absolute;
+            background: var(--accent-orange);
+            border-radius: 50%;
+            opacity: 0.1;
+            animation: particleFloat 15s infinite linear;
+        }
+
+        .particle:nth-child(2n) {
+            background: var(--text-dark);
+            animation-duration: 20s;
+            animation-delay: -5s;
+        }
+
+        .particle:nth-child(3n) {
+            animation-duration: 12s;
+            animation-delay: -10s;
+        }
+
+        @keyframes particleFloat {
+            0% {
+                transform: translateY(100vh) rotate(0deg);
+                opacity: 0;
+            }
+            10% {
+                opacity: 0.1;
+            }
+            90% {
+                opacity: 0.1;
+            }
+            100% {
+                transform: translateY(-10vh) rotate(360deg);
+                opacity: 0;
+            }
+        }
+
+        /* Enhanced transitions between slides */
+        .slide-transition {
+            transition: all 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+
+        /* Morphing background gradient */
+        .morphing-bg {
+            background: linear-gradient(-45deg, #ffffff, #fff9e6, #ffffff, #fff3bf);
+            background-size: 400% 400%;
+            animation: gradientMorph 18s ease infinite;
+        }
+
+        @keyframes gradientMorph {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        /* Pulsing elements */
+        .pulse-element {
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% {
+                transform: scale(1);
+                opacity: 1;
+            }
+            50% {
+                transform: scale(1.05);
+                opacity: 0.8;
+            }
+        }
+
+        /* Nur zweimaliges Pulsen für einzelne Elemente */
+        .pulse-twice {
+            animation: pulse 2s ease-in-out 2;
+        }
+        /* Für Highlight-Boxen: FadeIn behalten + zusätzlich zweimal pulsen */
+        .highlight-box.pulse-twice {
+            animation: fadeInUp 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards 0.2s, 
+                       pulse 2s ease-in-out 2 0.6s;
+        }
+
+        /* Links in Highlight-Boxen unauffällig stylen */
+        .highlight-box a { color: inherit; text-decoration: none; }
+        .highlight-box a:hover { text-decoration: underline; }
+
+        /* Enhanced mobile responsiveness with 3D effects */
+        @media (max-width: 768px) {
+            .slide {
+                perspective: 800px;
+            }
+            
+            .slide-content {
+                animation: slideIn 0.6s ease-out forwards;
+            }
+            
+            .process-step:hover,
+            .stat-card:hover,
+            .content-card:hover {
+                transform: translateY(-4px) scale(1.02);
+            }
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .slide {
+                padding: 40px 20px;
+            }
+
+            .nav-container {
+                padding: 12px 20px;
+            }
+
+            .nav-brand {
+                font-size: 16px;
+            }
+
+            .nav-controls {
+                gap: 8px;
+            }
+
+            .nav-button {
+                padding: 6px 12px;
+                font-size: 12px;
+            }
+
+            .content-grid {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+
+            .process-flow {
+                flex-direction: column;
+                gap: 16px;
+            }
+
+            .process-arrow {
+                transform: rotate(90deg);
+            }
+
+            .slide-dots {
+                display: none;
+            }
+
+            .mobile-nav {
+                display: flex;
+            }
+
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Presentation Mode */
+        .presentation-mode .nav-container {
+            display: none;
+        }
+
+        .presentation-mode .slide {
+            padding-top: 0;
+            min-height: 100vh;
+        }
+
+        /* Loading Animation */
+        .loading {
+            opacity: 0;
+            animation: fadeIn 0.6s ease-out forwards;
+        }
+
+        @keyframes fadeIn {
+            to {
+                opacity: 1;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <div class="nav-container">
+        <div class="nav-content">
+            <div class="nav-brand">PMMG PS</div>
+            <div class="nav-controls">
+                <div class="page-indicator">
+                    <span id="current-slide">1</span> / <span id="total-slides">12</span>
+                </div>
+                <button class="nav-button secondary" onclick="toggleThumbnails()">Übersicht</button>
+                <button class="nav-button" onclick="togglePresentation()">Vollbild</button>
+                <button class="nav-button secondary" onclick="previousSlide()">←</button>
+                <button class="nav-button secondary" onclick="nextSlide()">→</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Slide Dots Navigation -->
+    <div class="slide-dots" id="slide-dots"></div>
+
+    <!-- Mobile Navigation -->
+    <div class="mobile-nav">
+        <button class="mobile-nav-btn" onclick="previousSlide()">←</button>
+        <button class="mobile-nav-btn" onclick="nextSlide()">→</button>
+    </div>
+
+    <!-- Slides Container -->
+    <div class="slide-container">
+        <!-- Slide 1: Title -->
+        <div class="slide title-slide active loading" data-slide="1">
+            <div class="slide-content">
+                <div class="company-badge animated-text">PMMG PS</div>
+                <h2>PMMG<br>Process‑Mining‑Herausforderung</h2>
+                <div class="subtitle animated-text delay-1">Optimierung des Procure‑to‑Pay‑Prozesses (P2P) mit Celonis</div>
+                <div class="celonis-badge animated-text delay-2">Unterstützt durch Celonis</div>
+                <div class="author animated-text delay-3">Hannah Tobias</div>
+            </div>
+        </div>
+
+        <!-- Slide 2: Meeting Goals -->
+        <div class="slide loading slide-3d-left" data-slide="2">
+            <div class="slide-content">
+                <h2>Ziel des<br>Meetings</h2>
+                <ul class="key-points">
+                    <li>Mehrwert von Celonis verstehen</li>
+                    <li>Technische Umsetzung skizzieren</li>
+                    <li>Nächste Schritte diskutieren</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Slide 3: Celonis Introduction -->
+        <div class="slide loading slide-3d-right" data-slide="3">
+            <div class="slide-content">
+                <h2>Einführung in<br>Celonis Process Intelligence</h2>
+                <div class="highlight-box">
+                    <h3>Process Mining = Daten + Visualisierung + Erkenntnisse + Optimierung</h3>
+                </div>
+                <div class="benefits-box">
+                    <h3 class="animated-text delay-1">Nutzen:</h3>
+                    <ul class="key-points">
+                        <li>Transparenz</li>
+                        <li>Effizienz</li>
+                        <li>Automatisierung</li>
+                    </ul>
+                </div>
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-label">Typische Einsparpotenziale</div>
+                        <div style="font-size: 1.2em; margin-top: 16px;">Kosten • Zeit • Qualität</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 4: P2P Process -->
+        <div class="slide loading" data-slide="4">
+            <div class="slide-content">
+                <h2>Der Procure-to-Pay<br>Prozess</h2>
+                <div class="highlight-box">
+                    <strong>Von Bestellung bis Zahlung</strong>
+                </div>
+                
+                <div class="process-flow">
+                    <div class="process-step">Bestellung</div>
+                    <div class="process-arrow animated-text delay-1">→</div>
+                    <div class="process-step">Wareneingang</div>
+                    <div class="process-arrow animated-text delay-2">→</div>
+                    <div class="process-step">Rechnung</div>
+                    <div class="process-arrow animated-text delay-3">→</div>
+                    <div class="process-step">Zahlung</div>
+                </div>
+
+                <div class="challenges-box">
+                    <h3 class="animated-text delay-4">Herausforderungen:</h3>
+                    <ul class="key-points">
+                        <li>Medienbrüche</li>
+                        <li>Maverick Buying</li>
+                        <li>Lange Durchlaufzeiten</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 5: Praxisbeispiel: Deutsche Telekom Services Europe & Celonis (P2P) -->
+        <div class="slide loading slide-3d-left" data-slide="5">
+            <div class="slide-content">
+                <h2>Praxisbeispiel:<br>Deutsche Telekom Services Europe & Celonis (P2P)</h2>
+                <h3 class="animated-text delay-1">Ausgangslage</h3>
+                <ul class="key-points">
+                    <li>7 Mrd. € Einkaufsvolumen, 9 Mio. Rechnungen pro Jahr</li>
+                    <li>Probleme: Doppelzahlungen, Skontoverlust, blockierte Rechnungen</li>
+                </ul>
+                <h3 class="animated-text delay-2">Vorgehen mit Celonis</h3>
+                <ul class="key-points">
+                    <li>Integration von &gt;10 Systemen (SAP, Ariba etc.)</li>
+                    <li>Transparenz durch „digitalen Zwilling“</li>
+                    <li>Echtzeit-Alerts &amp; Automatisierung</li>
+                    <li>Center of Excellence für kontinuierliche Verbesserung</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Slide 6: ✅ Ergebnisse -->
+        <div class="slide loading slide-3d-right morphing-bg" data-slide="6">
+            <div class="slide-content">
+                <h2>✅ Ergebnisse</h2>
+                <ul class="key-points">
+                    <li>96 % Skonto‑Nutzung → 40 Mio. € gespart</li>
+                    <li>Automatisierungseffizienz: 12 Mio. €</li>
+                    <li>Doppelzahlungen vermieden: 3 Mio. €</li>
+                    <li>Vertragsstrafen realisiert: 1,6 Mio. €</li>
+                    <li>➡ Gesamteinsparung: über 66 Mio. €</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Slide 7: Live Demo -->
+        <div class="slide loading slide-3d-left morphing-bg" data-slide="7">
+            <div class="slide-content">
+                <h2>Einblick in die<br>Live‑Demo</h2>
+                <ul class="key-points">
+                    <li class="glow-on-hover">Prozessvisualisierung mit dem Process Explorer</li>
+                    <li class="glow-on-hover">Variantenvergleich von Abläufen</li>
+                    <li class="glow-on-hover">Identifikation unzuverlässiger Lieferanten</li>
+                </ul>
+                <div class="highlight-box pulse-twice glow-on-hover">
+                    <a href="https://qny4ay5l-2025-09-27.training.celonis.cloud/package-manager/ui/studio/ui/spaces/6464ec93-405b-440e-bbb8-e8a8458a6ebc/packages/dbe68be4-7d22-4142-ace9-22cb1bbd507d/nodes/399b3853-8897-4110-a62a-a26f7747d96c#!/documents/399b3853-8897-4110-a62a-a26f7747d96c/view"
+                       target="_blank"
+                       rel="noopener noreferrer"
+                       onclick="window.open(this.href, '_blank', 'noopener,noreferrer,width=1280,height=800,resizable=yes,scrollbars=yes'); return false;">
+                        Demo: Prozess Explorer, Variantenvergleich, Lieferanten sichtbar machen
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 8: Technical Integration -->
+        <div class="slide loading" data-slide="8">
+            <div class="slide-content">
+                <h2>Technische<br>Integration</h2>
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-value">15</div>
+                        <div class="stat-label">SAP S/4HANA Systeme</div>
+                    </div>
+                </div>
+                <ul class="key-points">
+                    <li><strong>Datenquellen:</strong> SAP S/4HANA (15 Systeme)</li>
+                    <li><strong>ETL-Prozess:</strong> Extraktion – Transformation – Laden</li>
+                    <li><strong>Datenaktualität:</strong> Batch vs. Near Real-Time</li>
+                </ul>
+                <div class="highlight-box">
+                    Integration: SAP S/4HANA, ETL, Batch vs. Near Real-Time
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 9: Quick Start -->
+        <div class="slide loading" data-slide="9">
+            <div class="slide-content">
+                <h2>Empfehlung<br>Schnellstart</h2>
+                <ul class="key-points">
+                    <li>Pilot mit 1–2 Gesellschaften</li>
+                    <li>Fokus auf Procure-to-Pay Prozess</li>
+                    <li>Schrittweise Roll-out auf weitere Länder</li>
+                </ul>
+                <div class="highlight-box">
+                    <strong>Empfehlung:</strong> Pilot mit 1–2 Gesellschaften, schrittweise Rollout
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 10: Analysis Results -->
+        <div class="slide loading" data-slide="10">
+            <div class="slide-content">
+                <h2>Analyse<br>Ergebnisse</h2>
+                
+                <h3>Variantenvergleich</h3>
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-value">55%</div>
+                        <div class="stat-label">Häufigste Variante</div>
+                    </div>
+                </div>
+                <ul class="key-points">
+                    <li>Abweichungen identifizieren</li>
+                    <li>Potenzial zur Standardisierung</li>
+                </ul>
+
+                <h3>Lieferantenperformance – Termintreue</h3>
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-value">95%</div>
+                        <div class="stat-label">Lieferant A (stark)</div>
+                    </div>
+                    <div class="stat-card" style="background: linear-gradient(135deg, #e74c3c, #c0392b);">
+                        <div class="stat-value">60%</div>
+                        <div class="stat-label">Lieferant D (schwach)</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 11: Management Dashboard -->
+        <div class="slide loading" data-slide="11">
+            <div class="slide-content">
+                <h2>Management<br>Dashboard</h2>
+                <div class="highlight-box">
+                    <h3>Beispielhaftes KPI-Dashboard zur Procure-to-Pay Optimierung</h3>
+                </div>
+                <ul class="key-points">
+                    <li>Übersicht zentraler Kennzahlen</li>
+                    <li>Grundlage für Management-Entscheidungen</li>
+                    <li>KPIs im Überblick, Management-Sicht</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Slide 12: Summary -->
+        <div class="slide loading morphing-bg" data-slide="12">
+            <div class="slide-content">
+                <h2>Zusammenfassung &<br>Nächste Schritte</h2>
+                <ul class="key-points">
+                    <li class="glow-on-hover"><strong>Transparenz schaffen</strong></li>
+                    <li class="glow-on-hover"><strong>Potenziale quantifizieren</strong></li>
+                    <li class="glow-on-hover"><strong>Pilot starten, Lessons Learned nutzen</strong></li>
+                </ul>
+                <div class="highlight-box pulse-element">
+                    <h3>Fazit: Transparenz, Potenziale, Pilot starten</h3>
+                </div>
+                <div style="margin-top: 40px;">
+                    <h3 class="animated-text delay-2" style="color: var(--primary-blue);">Vielen Dank für<br>Ihre Aufmerksamkeit!</h3>
+                    <div class="celonis-badge animated-text delay-3 glow-on-hover">PMMG PS × Celonis</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let currentSlide = 1;
+        const totalSlides = 12;
+        let isPresenting = false;
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', function() {
+            document.getElementById('total-slides').textContent = totalSlides;
+            generateSlideDots();
+            updateSlideIndicator();
+        });
+
+        function generateSlideDots() {
+            const dotsContainer = document.getElementById('slide-dots');
+            for (let i = 1; i <= totalSlides; i++) {
+                const dot = document.createElement('div');
+                dot.className = 'dot';
+                if (i === 1) dot.classList.add('active');
+                dot.addEventListener('click', () => goToSlide(i));
+                dotsContainer.appendChild(dot);
+            }
+        }
+
+        function showSlide(n) {
+            const slides = document.querySelectorAll('.slide');
+            const dots = document.querySelectorAll('.dot');
+            
+            if (n > totalSlides) currentSlide = 1;
+            if (n < 1) currentSlide = totalSlides;
+            
+            slides.forEach((slide, index) => {
+                slide.classList.remove('active');
+                if (index + 1 === currentSlide) {
+                    slide.classList.add('active');
+                    // Reset animations for new slide
+                    resetSlideAnimations(slide);
+                    // Add particles for enhanced visual effect
+                    addParticleEffect(slide);
+                }
+            });
+
+            dots.forEach((dot, index) => {
+                dot.classList.remove('active');
+                if (index + 1 === currentSlide) {
+                    dot.classList.add('active');
+                }
+            });
+
+            updateSlideIndicator();
+        }
+
+        function resetSlideAnimations(slide) {
+            // Restart ALL animated elements (incl. headings) when a slide becomes active
+            const animatedElements = slide.querySelectorAll('h1, h2, h3, .subtitle, .animated-text, .key-points li, .content-card, .stat-card, .process-step, .highlight-box, .celonis-badge, .company-badge');
+            animatedElements.forEach(element => {
+                element.style.animation = 'none';
+                // Force reflow to flush the change so the animation can restart
+                void element.offsetWidth;
+                // Clear inline style so CSS animations re-apply
+                element.style.animation = '';
+            });
+        }
+
+        function addParticleEffect(slide) {
+            // Remove existing particles
+            const existingParticles = slide.querySelector('.particles');
+            if (existingParticles) {
+                existingParticles.remove();
+            }
+
+            // Add new particle container
+            const particleContainer = document.createElement('div');
+            particleContainer.className = 'particles';
+            
+            // Create particles
+            for (let i = 0; i < 20; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'particle';
+                particle.style.left = Math.random() * 100 + '%';
+                particle.style.width = particle.style.height = Math.random() * 4 + 2 + 'px';
+                particle.style.animationDelay = Math.random() * 20 + 's';
+                particle.style.animationDuration = (Math.random() * 10 + 10) + 's';
+                particleContainer.appendChild(particle);
+            }
+            
+            slide.appendChild(particleContainer);
+        }
+
+        function nextSlide() {
+            currentSlide++;
+            showSlide(currentSlide);
+        }
+
+        function previousSlide() {
+            currentSlide--;
+            showSlide(currentSlide);
+        }
+
+        function goToSlide(n) {
+            currentSlide = n;
+            showSlide(currentSlide);
+        }
+
+        function updateSlideIndicator() {
+            document.getElementById('current-slide').textContent = currentSlide;
+        }
+
+        function togglePresentation() {
+            isPresenting = !isPresenting;
+            if (isPresenting) {
+                document.body.classList.add('presentation-mode');
+                if (document.documentElement.requestFullscreen) {
+                    document.documentElement.requestFullscreen();
+                }
+            } else {
+                document.body.classList.remove('presentation-mode');
+                if (document.exitFullscreen) {
+                    document.exitFullscreen();
+                }
+            }
+        }
+
+        function toggleThumbnails() {
+            // Implement thumbnail view
+            alert('Thumbnail-Ansicht würde hier implementiert werden');
+        }
+
+        // Keyboard navigation
+        document.addEventListener('keydown', function(e) {
+            switch(e.key) {
+                case 'ArrowRight':
+                case ' ':
+                    e.preventDefault();
+                    nextSlide();
+                    break;
+                case 'ArrowLeft':
+                    e.preventDefault();
+                    previousSlide();
+                    break;
+                case 'Escape':
+                    if (isPresenting) {
+                        togglePresentation();
+                    }
+                    break;
+                case 'f':
+                case 'F':
+                    togglePresentation();
+                    break;
+                case 'Home':
+                    goToSlide(1);
+                    break;
+                case 'End':
+                    goToSlide(totalSlides);
+                    break;
+            }
+        });
+
+        // Touch gestures
+        let startX = 0;
+        let startY = 0;
+
+        document.addEventListener('touchstart', function(e) {
+            startX = e.touches[0].clientX;
+            startY = e.touches[0].clientY;
+        });
+
+        document.addEventListener('touchend', function(e) {
+            const endX = e.changedTouches[0].clientX;
+            const endY = e.changedTouches[0].clientY;
+            const diffX = startX - endX;
+            const diffY = startY - endY;
+
+            if (Math.abs(diffX) > Math.abs(diffY) && Math.abs(diffX) > 50) {
+                if (diffX > 0) {
+                    nextSlide();
+                } else {
+                    previousSlide();
+                }
+            }
+        });
+
+        // Auto-hide cursor in presentation mode
+        let cursorTimer;
+        function resetCursorTimer() {
+            clearTimeout(cursorTimer);
+            document.body.style.cursor = 'default';
+            if (isPresenting) {
+                cursorTimer = setTimeout(() => {
+                    document.body.style.cursor = 'none';
+                }, 3000);
+            }
+        }
+
+        document.addEventListener('mousemove', resetCursorTimer);
+        document.addEventListener('keydown', resetCursorTimer);
+    </script>
+</body>
+</html>
