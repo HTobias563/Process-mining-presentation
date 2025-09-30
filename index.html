@@ -943,25 +943,25 @@
         }
 
         /* Special styling for Ergebnisse (Results) slide - only particles */
-        .slide[data-slide="6"] .particle {
+        .slide[data-slide="7"] .particle {
             background: #28a745 !important;
             box-shadow: 0 0 8px rgba(40, 167, 69, 0.4) !important;
             opacity: 0.5 !important;
         }
 
-        .slide[data-slide="6"] .particle:nth-child(6n+2) {
+        .slide[data-slide="7"] .particle:nth-child(6n+2) {
             background: rgba(40, 167, 69, 0.7) !important;
         }
 
-        .slide[data-slide="6"] .particle:nth-child(6n+3) {
+        .slide[data-slide="7"] .particle:nth-child(6n+3) {
             background: #20c997 !important;
         }
 
-        .slide[data-slide="6"] .particle:nth-child(6n+4) {
+        .slide[data-slide="7"] .particle:nth-child(6n+4) {
             background: linear-gradient(45deg, #28a745, rgba(40, 167, 69, 0.5)) !important;
         }
 
-        .slide[data-slide="6"] .particle:nth-child(6n+5) {
+        .slide[data-slide="7"] .particle:nth-child(6n+5) {
             background: rgba(34, 139, 34, 0.4) !important;
         }
 
@@ -1105,7 +1105,7 @@
             <div class="nav-brand">PMMG PS</div>
             <div class="nav-controls">
                 <div class="page-indicator">
-                    <span id="current-slide">1</span> / <span id="total-slides">12</span>
+                    <span id="current-slide">1</span> / <span id="total-slides">13</span>
                 </div>
                 <button class="nav-button secondary" onclick="toggleThumbnails()">Übersicht</button>
                 <button class="nav-button" onclick="togglePresentation()">Vollbild</button>
@@ -1138,8 +1138,20 @@
         </div>
 
 
-        <!-- Slide 2: Meeting Goals -->
+        <!-- Slide 2: QR Code -->
         <div class="slide loading slide-3d-left" data-slide="2">
+            <div class="slide-content">
+                <h2>Präsentation<br>verfügbar</h2>
+                <div style="text-align: center;">
+                    <img src="images/create-qr-code.png" alt="QR Code zur Präsentation" 
+                         style="width: 300px; height: 300px; border-radius: 12px; box-shadow: 0 8px 30px rgba(0, 0, 0, 0.15);">
+                    <div class="image-caption">Scannen Sie den QR-Code für den Zugang zur Präsentation</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 3: Meeting Goals -->
+        <div class="slide loading slide-3d-left" data-slide="3">
             <div class="slide-content">
                 <h2>Ziel des<br>Meetings</h2>
                 <ul class="key-points">
@@ -1150,8 +1162,8 @@
             </div>
         </div>
 
-        <!-- Slide 3: Celonis Introduction -->
-        <div class="slide loading slide-3d-right" data-slide="3">
+        <!-- Slide 4: Celonis Introduction -->
+        <div class="slide loading slide-3d-right" data-slide="4">
             <div class="slide-content">
                 <h2>Einführung in<br>Process Intelligence</h2>
                 <div class="highlight-box">
@@ -1174,8 +1186,8 @@
             </div>
         </div>
 
-        <!-- Slide 4: P2P Process -->
-        <div class="slide loading" data-slide="4">
+        <!-- Slide 5: P2P Process -->
+        <div class="slide loading" data-slide="5">
             <div class="slide-content">
                 <h2>Der Procure-to-Pay<br>Prozess</h2>
                 <div class="highlight-box">
@@ -1209,8 +1221,8 @@
             </div>
         </div>
 
-        <!-- Slide 5: Praxisbeispiel: Deutsche Telekom Services Europe & Celonis (P2P) -->
-        <div class="slide loading slide-3d-left" data-slide="5">
+        <!-- Slide 6: Praxisbeispiel: Deutsche Telekom Services Europe & Celonis (P2P) -->
+        <div class="slide loading slide-3d-left" data-slide="6">
             <div class="slide-content">
                 <h2>Praxisbeispiel:<br>Deutsche Telekom Services Europe & Celonis (P2P)</h2>
                 <h3 class="animated-text delay-1">Ausgangslage</h3>
@@ -1228,8 +1240,8 @@
             </div>
         </div>
 
-        <!-- Slide 6: ✅ Ergebnisse -->
-        <div class="slide loading slide-3d-right morphing-bg" data-slide="6">
+        <!-- Slide 7: ✅ Ergebnisse -->
+        <div class="slide loading slide-3d-right morphing-bg" data-slide="7">
             <div class="slide-content">
                 <h2> Ergebnisse</h2>
                 <ul class="key-points">
@@ -1243,8 +1255,9 @@
         </div>
 
 
-        <!-- Slide 8: Quick Start (früher Slide 9) -->
-        <div class="slide loading" data-slide="8">
+
+        <!-- Slide 9: Quick Start -->
+        <div class="slide loading" data-slide="9">
             <div class="slide-content">
                 <h2>Empfehlung<br>Schnellstart</h2>
                 <ul class="key-points">
@@ -1252,14 +1265,12 @@
                     <li>Fokus auf Procure-to-Pay Prozess</li>
                     <li>Schrittweise Roll-out auf weitere Länder</li>
                 </ul>
-                <div class="highlight-box">
-                    <strong>Empfehlung:</strong> Pilot mit 1–2 Gesellschaften, schrittweise Rollout
-                </div>
+
             </div>
         </div>
 
-        <!-- Slide 9: Technical Integration (früher Slide 8) -->
-        <div class="slide loading" data-slide="9">
+        <!-- Slide 10: Technical Integration -->
+        <div class="slide loading" data-slide="10">
             <div class="slide-content">
                 <h2>Technische<br>Integration</h2>
                 <div class="stats-grid">
@@ -1273,13 +1284,23 @@
                     <li><strong>ETL-Prozess:</strong> Extraktion – Transformation – Laden</li>
                     <li><strong>Datenaktualität:</strong> Batch vs. Near Real-Time</li>
                 </ul>
-                <div class="highlight-box">
-                    Integration: SAP S/4HANA, ETL, Batch vs. Near Real-Time
-                </div>
+
             </div>
         </div>
-                <!-- Slide 7: Live Demo -->
-        <div class="slide loading slide-3d-left morphing-bg" data-slide="7">
+        <!-- Slide 11: Placeholder (to be defined) -->
+        <div class="slide loading morphing-bg" data-slide="11">
+            <div class="slide-content">
+                <h2>Weitere Schritte</h2>
+                <ul class="key-points">
+                    <li>Pilot-Projekt definieren</li>
+                    <li>Technische Voraussetzungen prüfen</li>
+                    <li>Timeline festlegen</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Slide 12: Live Demo -->
+        <div class="slide loading slide-3d-left morphing-bg" data-slide="8">
             <div class="slide-content">
                 <h2>Einblick in die<br>Live‑Demo</h2>
                 <div class="highlight-box pulse-twice glow-on-hover">
@@ -1293,20 +1314,9 @@
             </div>
         </div>
 
-        <!-- Slide 11: Summary -->
-        <div class="slide loading morphing-bg" data-slide="11">
-            <div class="slide-content">
-                <h2>Zusammenfassung &<br>Nächste Schritte</h2>
-                <ul class="key-points">
-                    <li class="glow-on-hover"><strong>Transparenz schaffen</strong></li>
-                    <li class="glow-on-hover"><strong>Potenziale quantifizieren</strong></li>
-                    <li class="glow-on-hover"><strong>Pilot starten, Lessons Learned nutzen</strong></li>
-                </ul>
-            </div>
-        </div>
 
-        <!-- Slide 12: Thank You -->
-        <div class="slide loading morphing-bg" data-slide="12">
+        <!-- Slide 13: Thank You -->
+        <div class="slide loading morphing-bg" data-slide="13">
             <div class="slide-content thank-you-slide">
                 <div class="thank-you-container">
                     <h2 class="thank-you-title animated-text">Vielen Dank für<br>Ihre Aufmerksamkeit!</h2>
@@ -1324,7 +1334,7 @@
 
     <script>
         let currentSlide = 1;
-        const totalSlides = 12;
+        const totalSlides = 13;
         let isPresenting = false;
 
         // Initialize
@@ -1408,6 +1418,14 @@
             const existingParticles = slide.querySelector('.particles');
             if (existingParticles) {
                 existingParticles.remove();
+            }
+
+            // Get the slide number from data-slide attribute
+            const slideNumber = parseInt(slide.getAttribute('data-slide'));
+            
+            // Skip particle effects for slides 3, 4, 5, 6, 7, 8, 9, 10, 11, 12
+            if ([3, 4, 5, 6, 7, 8, 9, 10, 11, 12].includes(slideNumber)) {
+                return; // Exit early without adding particles
             }
 
             // Add new particle container
